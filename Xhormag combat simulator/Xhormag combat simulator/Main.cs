@@ -10,13 +10,14 @@ namespace Xhormag_combat_simulator
         static void Main(string[] args)
         {
             string winner = "";
-            //Create character sheet
-            //Generate the lists   
-            
-            //Create the player
-            GameData PlayerStats = new GameData();
+            //Create the gameData
+            GameData PlayerData = new GameData();
+
+            //Inventory test
+
+            //Create the fighter
             string fighterName = "Player";
-            Fighter Player = new Fighter(PlayerStats.GetStats().GetAbility(), PlayerStats.GetStats().GetDamage(), PlayerStats.GetStats().GetArmor(), PlayerStats.GetStats().GetEndurence());
+            Fighter Player = new Fighter(PlayerData.GetStats().GetAbility(), PlayerData.GetStats().GetDamage(), PlayerData.GetStats().GetArmor(), PlayerData.GetStats().GetEndurence());
             PrintStats(Player, fighterName);
 
             while (true)
@@ -26,8 +27,7 @@ namespace Xhormag_combat_simulator
 
 
                 //Create the enemies
-                int numberEnemy = CheckIfNumberEnemyIsValid();
-
+                int numberEnemy = NumberOfEnemy();
 
                 //Create a list of enemy
                 List<Fighter> Enemy = new List<Fighter>();
@@ -36,15 +36,13 @@ namespace Xhormag_combat_simulator
                     for (int enemyGenerator = 0; enemyGenerator < numberEnemy; enemyGenerator++)
                     {
                         fighterName = "enemy" + (enemyGenerator + 1);
-                        Console.WriteLine(enemyGenerator + 1);
                         Enemy.Add(GetFighter(fighterName));
                     }
                 }
-                
 
                 //Start the combat
                 while (endOfCombat == false)
-                {
+                {                    
                     int totalEndurenceOfAllEnemies = 0;
                     for (int activeEnemy = 0; activeEnemy < numberEnemy; activeEnemy++)
                     {
@@ -93,7 +91,6 @@ namespace Xhormag_combat_simulator
         {
             return new Fighter(NewFighterAbility(figtherName), NewFighterDamage(figtherName), NewFighterArmor(figtherName), NewFighterEndurence(figtherName));
         }
-
         private static void Assault(Fighter Player, Fighter Enemy, int enemyNumber)
         {
             short[,] damageGrid =
@@ -119,24 +116,22 @@ namespace Xhormag_combat_simulator
 
             bool criticalHit = false;
             int damage = DamageRoll(AbilityDiffrence(Player, Enemy));
-            Console.WriteLine("The damage is:" + damage);
             if (damage > 0)
             {
                 //player deals damage
-                Enemy.SetEndurence(Enemy.GetEndurence() - (damage - Enemy.GetArmor() + Enemy.GetDamage()));
+                Enemy.SetEndurence(Enemy.GetEndurence() - (damage - Enemy.GetArmor() + Player.GetDamage()));
                 //apply critical wound rules
                 CriticalWoundRules(Enemy, damage);
                 HitText("Player");
-                Console.WriteLine(Enemy.GetEndurence());
             }
             else
             {
                 //player receive damage
-                Player.SetEndurence(Player.GetEndurence() - ((damage * -1) - Player.GetArmor() + Player.GetDamage()));
+                damage = damage * -1;
+                Player.SetEndurence(Player.GetEndurence() - (damage - Player.GetArmor() + Enemy.GetDamage()));
                 //apply critical wound rules
                 CriticalWoundRules(Player, (damage * -1));
                 HitText("Enemy" + enemyNumber);
-                Console.WriteLine(Player.GetEndurence());
 
             }
 
@@ -161,12 +156,12 @@ namespace Xhormag_combat_simulator
             {
                 if (criticalHit == true)
                 {
-                    Console.WriteLine("Critical hit from the " + Fighter);
+                    Console.WriteLine("Critical hit from the {0} he dealt {1} damage", Fighter, damage);
                     criticalHit = false;
                 }
                 else
                 {
-                    Console.WriteLine("Hit from the " + Fighter);
+                    Console.WriteLine("Hit from the {0} he dealt {1} damage", Fighter, damage);
                 }
                 Console.ReadLine();
             }
@@ -181,15 +176,15 @@ namespace Xhormag_combat_simulator
                     damageDealt += criticalHitDamage[Random()];
                 }
                 return damageDealt;
-            }
 
-            int Random()
-            {
-                Random random = new Random();
-                return random.Next(0, 15);
+                int Random()
+                {
+                    Random random = new Random();
+                    return random.Next(0, 15);
+                }
             }
+            
         }
-
         private static int AbilityDiffrence(Fighter Player, Fighter Enemy)
         {
             int abilityDiffrence;
@@ -208,7 +203,6 @@ namespace Xhormag_combat_simulator
             }
             return abilityDiffrence;
         }
-
         public static void PrintStats(Fighter Fighter, string FighterName)
         {
             Console.Clear();
@@ -221,29 +215,24 @@ namespace Xhormag_combat_simulator
             Console.ReadLine();
             Console.Clear();
         }
-
         public static void PrintCombat(Fighter Fighter, string FighterName)
         {
             Console.WriteLine(FighterName);
             Console.WriteLine("Ability: " + Fighter.GetAbility());
             Console.WriteLine("Endurence: " + Fighter.GetEndurence());
-        }
-        
+        }        
         private static int NewFighterAbility(string figtherCategory)
         {
             return StringToInt("What is the " + figtherCategory + " ability?");
         }
-
         private static int NewFighterEndurence(string figtherCategory)
         {
             return StringToInt("What is the " + figtherCategory + " endurence?");
         }
-
         private static int NewFighterDamage(string figtherCategory)
         {
             return StringToInt("What is the " + figtherCategory + " damage?");
         }
-
         private static int NewFighterArmor(string figtherCategory)
         {
             return StringToInt("What is the " + figtherCategory + " armor?");
@@ -270,12 +259,13 @@ namespace Xhormag_combat_simulator
                 }
             return parsedValue;
         }
-        private static int CheckIfNumberEnemyIsValid()
+        private static int NumberOfEnemy()
         {
             int count = 0;
+            int numberEnemy = 0;
             while (true)
             {
-                int numberEnemy = StringToInt("How many enemy(ies) are you facing?");
+                numberEnemy = StringToInt("How many enemy(ies) are you facing?");
                 if (numberEnemy > 0 && numberEnemy < MAX_ENEMY_COUNT)
                 {
                     break;

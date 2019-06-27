@@ -17,18 +17,21 @@ namespace Xhormag_combat_simulator
             mMiscList = new List<Misc>();
         }
 
-        public void AddToWeapon(int listNumber)
+        public void AddToInventory()
         {
+            int listNumber = Program.StringToInt("What kind of item do you want to Add? (0: Weapon, 1: Armor, 2: Misc");
             switch (listNumber)
             {
                 //Weapon
                 case 0:
                     Console.WriteLine("What is the weapon name?");
                     string weaponName = Console.ReadLine();
-                    Console.WriteLine("What is the weapon ability bonus?");
-                    
-                    Console.WriteLine("What is the weapon damage bonsu?");
 
+                    int weaponAbilityBonus = Program.StringToInt("What is the ability bonus of the weapon?");
+
+                    int weaponDamageBonus = Program.StringToInt("What is the damage bonus of the weapon");
+
+                    mWeaponList.Add(new Weapon(weaponName, weaponAbilityBonus, weaponDamageBonus));
                     break;
                 default:
                     break;
@@ -36,9 +39,7 @@ namespace Xhormag_combat_simulator
             }
         }
         public List<Weapon> GetWeaponList() => mWeaponList;
-        public void AddToArmor(Armor armor) => mArmorList.Add(armor);
         public List<Armor> GetArmorList() => mArmorList;
-        public void AddToMisc(Misc misc) => mMiscList.Add(misc);
         public List<Misc> GetMiscList() => mMiscList;
     }
 }
