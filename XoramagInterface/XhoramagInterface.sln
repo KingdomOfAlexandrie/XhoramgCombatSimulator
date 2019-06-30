@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XoramagInterface", "XoramagInterface\XoramagInterface.csproj", "{D00D6EAC-E393-4AE7-9682-E2B0EC7177EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D00D6EAC-E393-4AE7-9682-E2B0EC7177EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00D6EAC-E393-4AE7-9682-E2B0EC7177EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00D6EAC-E393-4AE7-9682-E2B0EC7177EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00D6EAC-E393-4AE7-9682-E2B0EC7177EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D42E9AA-1874-49C4-8150-012E201CFB43}
+	EndGlobalSection
+EndGlobal
